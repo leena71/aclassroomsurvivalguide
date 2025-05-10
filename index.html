@@ -439,6 +439,8 @@
     display: flex; /* Flexbox layout */
     justify-content: space-between; /* Space out the content */
     align-items: flex-start; /* Align content to the start */
+    max-height: 150px; /* Limit max height */
+    overflow-y: auto; /* Allow scroll when the text overflows */
   }
 
   /* Delete Button Styling */
@@ -574,6 +576,7 @@
   // Load comments when the page is first loaded
   loadComments();
 </script>
+
 
 
 
