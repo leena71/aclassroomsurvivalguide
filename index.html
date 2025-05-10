@@ -331,81 +331,84 @@
       </ul>
       <iframe id="audioIframe" src="" allow="autoplay; encrypted-media" loading="lazy"></iframe>
     </div>
-
-    <!-- Draggable and Resizable Comment Box -->
+<!-- Draggable and Resizable Comment Box -->
 <div id="commentBox">
   <header>Voice your opinion: here</header>
   <textarea id="commentText" placeholder="Your feedback matters! Feel free to share your thoughts:)"></textarea>
+  <button id="saveCommentBtn">Save Comment</button>
   <div class="resizer"></div>
 </div>
+
+<h3>All Comments:</h3>
+<div id="commentsContainer"></div>
 
 <style>
   /* Draggable and Resizable Comment Box */
   #commentBox {
-  width: 300px;
-  height: 200px;
-  background: linear-gradient(to bottom right, #f8c7d8, #d1b3ff);
-  border: 2px solid #b39ddb;
-  border-radius: 10px;
-  padding: 15px;
-  font-family: 'Arapey', serif;
-  color: #4a148c;
-  font-size: 14px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-  margin-top: 30px; /* Adds space between the playlist and comment box */
-  z-index: 1000;
-}
+    width: 300px;
+    height: 200px;
+    background: linear-gradient(to bottom right, #f8c7d8, #d1b3ff);
+    border: 2px solid #b39ddb;
+    border-radius: 10px;
+    padding: 15px;
+    font-family: 'Arapey', serif;
+    color: #4a148c;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin-top: 30px; /* Adds space between the playlist and comment box */
+    z-index: 1000;
+  }
 
-#commentBox header {
-  background-color: #4a148c;
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  font-weight: bold;
-  text-align: center;
-  cursor: move;
-}
+  #commentBox header {
+    background-color: #4a148c;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    cursor: move;
+  }
 
-#commentBox textarea {
-  width: 100%;
-  height: 120px;
-  background-color: #FFFFCC;
-  border: 2px dotted #FFFFCC;
-  font-family: Times, serif;
-  font-size: 12pt;
-  color: #000000;
-  padding: 10px;
-  box-sizing: border-box;
-  resize: vertical;
-}
+  #commentBox textarea {
+    width: 100%;
+    height: 120px;
+    background-color: #FFFFCC;
+    border: 2px dotted #FFFFCC;
+    font-family: Times, serif;
+    font-size: 12pt;
+    color: #000000;
+    padding: 10px;
+    box-sizing: border-box;
+    resize: vertical;
+  }
 
-#commentBox button {
-  background-color: #4a148c;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 8px;
-  margin-top: 10px;
-  width: 100%;
-  transition: background-color 0.3s;
-}
+  #commentBox button {
+    background-color: #4a148c;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 10px;
+    width: 100%;
+    transition: background-color 0.3s;
+  }
 
-#commentBox button:hover {
-  background-color: #7b1fa2;
-}
+  #commentBox button:hover {
+    background-color: #7b1fa2;
+  }
 
-#commentBox .resizer {
-  width: 10px;
-  height: 10px;
-  background-color: #4a148c;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  cursor: se-resize;
-}
+  #commentBox .resizer {
+    width: 10px;
+    height: 10px;
+    background-color: #4a148c;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: se-resize;
+  }
 </style>
 
 <script>
@@ -454,12 +457,51 @@
     }
   }
 
-  // Handle Comment Submission
-  function submitComment() {
-    const comment = document.getElementById('commentText').value;
-    console.log('Comment Submitted:', comment);  // Replace with your actual submission logic
+  // Handle Comment Submission and Persistence
+  document.getElementById('saveCommentBtn').addEventListener('click', function() {
+    const comment = document.getElementById('commentText').value.trim();
+
+    if (comment) {
+      // Get existing comments from localStorage or create an empty array
+      let comments = JSON.parse(localStorage.getItem('comments')) || [];
+
+      // Add the new comment to the array
+      comments.push(comment);
+
+      // Save the updated comments array back to localStorage
+      localStorage.setItem('comments', JSON.stringify(comments));
+
+      // Clear the textarea
+      document.getElementById('commentText').value = '';
+
+      // Reload and display all comments
+      loadComments();
+    } else {
+      alert("Please type something in the comment box.");
+    }
+  });
+
+  // Function to load and display all comments
+  function loadComments() {
+    // Clear the previous comments display
+    const commentsContainer = document.getElementById('commentsContainer');
+    commentsContainer.innerHTML = '';
+
+    // Get the comments from localStorage
+    const comments = JSON.parse(localStorage.getItem('comments')) || [];
+
+    // Loop through the comments and display them
+    comments.forEach(function(comment) {
+      const commentElement = document.createElement('p');
+      commentElement.textContent = comment;
+      commentsContainer.appendChild(commentElement);
+    });
   }
+
+  // Load comments when the page is first loaded
+  loadComments();
 </script>
+
 
 
     <!-- BTS Quote Generator -->
