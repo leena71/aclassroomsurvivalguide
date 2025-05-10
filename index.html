@@ -345,8 +345,8 @@
 <style>
   /* Draggable and Resizable Comment Box */
   #commentBox {
-    width: 300px;
-    height: 200px;
+    width: 400px; /* Increased width for better visibility */
+    height: 250px; /* Increased height to make the box more spacious */
     background: linear-gradient(to bottom right, #f8c7d8, #d1b3ff);
     border: 2px solid #b39ddb;
     border-radius: 10px;
@@ -421,8 +421,9 @@
     font-size: 16px; /* Larger font size for comments */
     line-height: 1.5;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px; /* Increased width */
+    max-width: 700px; /* Increased width */
     min-height: 200px; /* Minimum height for the comments container */
+    overflow-y: auto; /* Allows scrolling if many comments */
   }
 
   /* Individual Comment Styling */
@@ -574,8 +575,6 @@
   // Load comments when the page is first loaded
   loadComments();
 </script>
-
-
 
 
 
