@@ -356,7 +356,7 @@
     font-size: 14px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
-    margin-top: 30px; /* Adds space between the playlist and comment box */
+    margin-top: 30px;
     z-index: 1000;
   }
 
@@ -408,6 +408,25 @@
     right: 0;
     bottom: 0;
     cursor: se-resize;
+  }
+
+  .comment {
+    margin-bottom: 10px;
+  }
+
+  .deleteBtn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-left: 10px;
+  }
+
+  .deleteBtn:hover {
+    background-color: darkred;
   }
 </style>
 
@@ -491,16 +510,43 @@
     const comments = JSON.parse(localStorage.getItem('comments')) || [];
 
     // Loop through the comments and display them
-    comments.forEach(function(comment) {
-      const commentElement = document.createElement('p');
+    comments.forEach(function(comment, index) {
+      const commentElement = document.createElement('div');
+      commentElement.classList.add('comment');
       commentElement.textContent = comment;
+
+      // Create delete button for each comment
+      const deleteBtn = document.createElement('button');
+      deleteBtn.classList.add('deleteBtn');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.addEventListener('click', function() {
+        deleteComment(index);
+      });
+
+      commentElement.appendChild(deleteBtn);
       commentsContainer.appendChild(commentElement);
     });
+  }
+
+  // Function to delete a comment
+  function deleteComment(index) {
+    // Get the current comments from localStorage
+    let comments = JSON.parse(localStorage.getItem('comments')) || [];
+
+    // Remove the comment from the array
+    comments.splice(index, 1);
+
+    // Save the updated comments back to localStorage
+    localStorage.setItem('comments', JSON.stringify(comments));
+
+    // Reload and display the updated list of comments
+    loadComments();
   }
 
   // Load comments when the page is first loaded
   loadComments();
 </script>
+
 
 
 
