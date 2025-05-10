@@ -436,7 +436,9 @@
     color: #4a148c;
     position: relative;
     line-height: 1.5;
-    padding-right: 45px; /* Add extra padding to make room for the delete button */
+    display: flex; /* Flexbox layout */
+    justify-content: space-between; /* Space out the content */
+    align-items: flex-start; /* Align content to the start */
   }
 
   /* Delete Button Styling */
@@ -448,9 +450,6 @@
     cursor: pointer;
     border-radius: 5px;
     font-size: 14px; /* Larger font size for the delete button */
-    position: absolute;
-    top: 5px;
-    right: 10px;
     transition: background-color 0.3s;
   }
 
@@ -575,6 +574,7 @@
   // Load comments when the page is first loaded
   loadComments();
 </script>
+
 
 
 
